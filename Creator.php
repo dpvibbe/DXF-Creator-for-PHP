@@ -841,7 +841,7 @@ class Creator {
                     "6\n" . // Linetype name
                     "{$layer['lineType']}\n";
 
-                if ($layer['lineWeight'] !== null {
+                if ($layer['lineWeight'] !== null) {
                     $layers .= 
                         "370\n".
                         "{$layer['lineWeight']}\n";
