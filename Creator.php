@@ -131,13 +131,15 @@ class Creator {
      * @param string $name
      * @param int $color Color code (@see adamasantares\dxf\Color class)
      * @param string $lineType Line type (@see adamasantares\dxf\LineType class)
+     * @param null|int $lineWeight (optional)
      * @return Creator Instance
      */
-    public function addLayer($name, $color = Color::GRAY, $lineType = LineType::SOLID)
+    public function addLayer($name, $color = Color::GRAY, $lineType = LineType::SOLID, $lineWeight = null)
     {
         $this->layers[$name] = [
             'color' => $color,
-            'lineType' => $lineType
+            'lineType' => $lineType,
+            'lineWeight' => $lineWeight
         ];
         $this->lTypes[$lineType] = $lineType;
         return $this;
@@ -149,12 +151,13 @@ class Creator {
      * @param $name
      * @param int $color  (optional) Color code. Only for new layer (@see adamasantares\dxf\Color class)
      * @param string $lineType (optional) Only for new layer
+     * @param null|int $lineWeight (optional)
      * @return Creator Instance
      */
-    public function setLayer($name, $color = Color::GRAY, $lineType = LineType::SOLID)
+    public function setLayer($name, $color = Color::GRAY, $lineType = LineType::SOLID, $lineWeight = null)
     {
         if (!isset($this->layers[$name])) {
-            $this->addLayer($name, $color, $lineType);
+            $this->addLayer($name, $color, $lineType, $lineWeight);
         }
         $this->layerName = $name;
         return $this;
@@ -836,7 +839,14 @@ class Creator {
                     "62\n" . // Color number (if negative, layer is off)
                     "{$layer['color']}\n" .
                     "6\n" . // Linetype name
-                    "{$layer['lineType']}\n" .
+                    "{$layer['lineType']}\n";
+
+                if ($layer['lineWeight'] !== null {
+                    $layers .= 
+                        "370\n".
+                        "{$layer['lineWeight']}\n";
+                }
+                   $layers .=  
                     "390\n" .
                     "F\n" .
                     "0\n";
